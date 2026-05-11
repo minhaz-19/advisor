@@ -862,28 +862,63 @@
       </div>
 
       <div class="profile-card" id="profileCard">
-        <div class="profile-header">
-          <div class="profile-avatar" id="profileAvatar">--</div>
-          <div>
-            <div class="profile-name" id="profileName">—</div>
-            <div class="profile-roll" id="profileRoll">—</div>
-          </div>
-        </div>
-        <div class="profile-meta">
-          <div class="meta-item">
-            <div class="meta-label">Department</div>
-            <div class="meta-value" id="profileDept">—</div>
-          </div>
-          <div class="meta-item">
-            <div class="meta-label">Batch</div>
-            <div class="meta-value" id="profileBatch">—</div>
-          </div>
-          <div class="meta-item" style="grid-column:span 2">
-            <div class="meta-label">CGPA</div>
-            <div class="meta-value cgpa-value" id="profileCgpa">—</div>
-          </div>
-        </div>
-      </div>
+
+  <div class="profile-header">
+
+    <div class="profile-avatar" id="profileAvatar">--</div>
+
+    <div>
+      <div class="profile-name" id="profileName">—</div>
+      <div class="profile-roll" id="profileRoll">—</div>
+    </div>
+
+  </div>
+
+  <div class="profile-meta">
+
+    <div class="meta-item">
+      <div class="meta-label">Department</div>
+      <div class="meta-value" id="profileDept">—</div>
+    </div>
+
+    <div class="meta-item">
+      <div class="meta-label">Batch</div>
+      <div class="meta-value" id="profileBatch">—</div>
+    </div>
+
+    <div class="meta-item">
+      <div class="meta-label">CGPA</div>
+      <div class="meta-value cgpa-value" id="profileCgpa">—</div>
+    </div>
+
+    <div class="meta-item">
+      <div class="meta-label">Student Mobile</div>
+      <div class="meta-value" id="profileMobile">—</div>
+    </div>
+
+    <div class="meta-item">
+      <div class="meta-label">Father Mobile</div>
+      <div class="meta-value" id="profileFatherMobile">—</div>
+    </div>
+
+    <div class="meta-item">
+      <div class="meta-label">Mother Mobile</div>
+      <div class="meta-value" id="profileMotherMobile">—</div>
+    </div>
+
+    <div class="meta-item">
+      <div class="meta-label">Father Name</div>
+      <div class="meta-value" id="profileFatherName">—</div>
+    </div>
+
+    <div class="meta-item">
+      <div class="meta-label">Mother Name</div>
+      <div class="meta-value" id="profileMotherName">—</div>
+    </div>
+
+  </div>
+
+</div>
     </div>
 
     <div class="content-area">
@@ -1128,12 +1163,38 @@
       const s = result.data;
       studentId = s.studentId;
       document.getElementById("profileAvatar").textContent = initials(s.studentName);
-      document.getElementById("profileName").textContent   = s.studentName;
-      document.getElementById("profileRoll").textContent   = s.studentRoll;
-      document.getElementById("profileDept").textContent   = s.departmentName;
-      document.getElementById("profileBatch").textContent  = s.batchName;
-      document.getElementById("profileCgpa").textContent   = s.cgpa;
-      document.getElementById("profileCard").style.display = "block";
+
+document.getElementById("profileName").textContent =
+  s.studentName ?? "—";
+
+document.getElementById("profileRoll").textContent =
+  s.studentRoll ?? "—";
+
+document.getElementById("profileDept").textContent =
+  s.departmentName ?? "—";
+
+document.getElementById("profileBatch").textContent =
+  s.batchName ?? "—";
+
+document.getElementById("profileCgpa").textContent =
+  s.cgpa ?? "—";
+
+document.getElementById("profileMobile").textContent =
+  s.mobileNumber ?? "—";
+
+document.getElementById("profileFatherMobile").textContent =
+  s.fatherMobileNumber ?? "—";
+
+document.getElementById("profileMotherMobile").textContent =
+  s.motherMobileNumber ?? "—";
+
+document.getElementById("profileFatherName").textContent =
+  s.fatherName ?? "—";
+
+document.getElementById("profileMotherName").textContent =
+  s.motherName ?? "—";
+
+document.getElementById("profileCard").style.display = "block";
       loadSemesters();
     } catch(e) { console.error(e); alert("Error fetching student data."); }
   }
