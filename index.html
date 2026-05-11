@@ -1,901 +1,1246 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>EMS Advisor Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+  :root {
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --surface2: #f9f8f5;
+    --border: rgba(0,0,0,0.08);
+    --border-strong: rgba(0,0,0,0.14);
+    --text: #1a1916;
+    --text-2: #6b6a66;
+    --text-3: #a09f9b;
+    --accent: #2d5be3;
+    --accent-light: #eef1fd;
+    --accent-text: #1a3ab5;
+    --green: #16a34a;
+    --green-light: #f0fdf4;
+    --amber: #d97706;
+    --amber-light: #fffbeb;
+    --red: #dc2626;
+    --red-light: #fef2f2;
+    --radius: 14px;
+    --radius-sm: 8px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  }
 
-    <title>EMS Advisor Dashboard</title>
+  html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
 
-    <style>
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
 
-        body{
-            font-family: Arial, sans-serif;
-            background:#f4f4f4;
-            margin:0;
-            padding:0;
-        }
+  /* ── LOGIN ── */
+  #loginSection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
 
-        .container{
-            width:95%;
-            max-width:1400px;
-            margin:30px auto;
-            background:white;
-            padding:25px;
-            border-radius:10px;
-            box-shadow:0px 0px 10px rgba(0,0,0,0.1);
-        }
+  .login-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: var(--shadow);
+  }
 
-        h2{
-            text-align:center;
-        }
+  .login-logo {
+    width: 48px;
+    height: 48px;
+    background: var(--accent);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
 
-        input, select{
-            width:100%;
-            padding:10px;
-            margin-top:10px;
-            box-sizing:border-box;
-        }
+  .login-logo svg { width: 24px; height: 24px; fill: white; }
 
-        button{
-            width:100%;
-            padding:12px;
-            margin-top:15px;
-            background:#007bff;
-            color:white;
-            border:none;
-            cursor:pointer;
-            border-radius:5px;
-            font-size:16px;
-        }
+  .login-card h1 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
 
-        button:hover{
-            background:#0056b3;
-        }
+  .login-card p {
+    font-size: 14px;
+    color: var(--text-2);
+    margin-bottom: 2rem;
+  }
 
-        .student-card{
-            margin-top:20px;
-            background:#f9f9f9;
-            padding:20px;
-            border-radius:10px;
-            border:1px solid #ddd;
-        }
+  .field { margin-bottom: 1rem; }
 
-        .info{
-            margin-bottom:8px;
-        }
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-2);
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+  }
 
-        .label{
-            font-weight:bold;
-        }
+  .field input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
 
-        table{
-            width:100%;
-            border-collapse:collapse;
-            margin-top:15px;
-        }
+  .field input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(45,91,227,0.12);
+  }
 
-        table, th, td{
-            border:1px solid #ddd;
-        }
+  .btn-primary {
+    width: 100%;
+    padding: 12px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    margin-top: 0.5rem;
+  }
 
-        th, td{
-            padding:10px;
-            text-align:center;
-        }
+  .btn-primary:hover { background: #1d4bd4; }
+  .btn-primary:active { transform: scale(0.99); }
 
-        th{
-            background:#007bff;
-            color:white;
-        }
+  /* ── DASHBOARD ── */
+  #dashboard { display: none; }
 
-        tr:nth-child(even){
-            background:#f2f2f2;
-        }
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    gap: 12px;
+  }
 
-        #dashboard{
-            display:none;
-        }
+  .topbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
 
-        .loading{
-            text-align:center;
-            margin-top:20px;
-            font-weight:bold;
-            color:#007bff;
-        }
+  .topbar-logo {
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-        .subject-card{
-            background:#f9f9f9;
-            border:1px solid #ddd;
-            border-radius:10px;
-            padding:20px;
-            margin-top:25px;
-        }
+  .topbar-logo svg { width: 16px; height: 16px; fill: white; }
 
-        .subject-title{
-            margin-top:0;
-            color:#007bff;
-        }
+  .topbar-brand span {
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
 
-        .attendance-box{
-            background:#ffffff;
-            border:1px solid #ddd;
-            border-radius:8px;
-            padding:15px;
-            margin-bottom:20px;
-        }
+  /* ── USER AREA (right side of topbar) ── */
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
 
-        .attendance-grid{
-            display:grid;
-            grid-template-columns:
-                repeat(auto-fit,minmax(180px,1fr));
-            gap:10px;
-        }
+  .user-chip {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    padding: 5px 14px 5px 6px;
+  }
 
-        .attendance-item{
-            background:#f8f8f8;
-            padding:10px;
-            border-radius:6px;
-        }
+  .user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+  }
 
-        .roll-container{
-            display:flex;
-            flex-wrap:wrap;
-            gap:10px;
-            margin-top:20px;
-        }
+  .user-chip-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    white-space: nowrap;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
-        .roll-btn{
-            width:auto;
-            padding:10px 15px;
-            background:#17a2b8;
-            border:none;
-            border-radius:6px;
-            color:white;
-            cursor:pointer;
-        }
+  .btn-logout {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: transparent;
+    color: var(--text-2);
+    border: 1px solid var(--border-strong);
+    border-radius: 40px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
 
-        .roll-btn:hover{
-            background:#117a8b;
-        }
+  .btn-logout:hover {
+    background: var(--red-light);
+    color: var(--red);
+    border-color: rgba(220,38,38,0.2);
+  }
 
-    </style>
+  .btn-logout svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
 
+  /* ── WELCOME BANNER ── */
+  .welcome-banner {
+    background: linear-gradient(135deg, var(--accent) 0%, #1a3ab5 100%);
+    padding: 1.25rem 2rem;
+    display: none;
+  }
+
+  .welcome-banner-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .welcome-banner p {
+    color: rgba(255,255,255,0.85);
+    font-size: 14px;
+  }
+
+  .welcome-banner strong {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .welcome-banner-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .welcome-banner-icon svg { width: 18px; height: 18px; stroke: white; fill: none; }
+
+  .welcome-banner-dismiss {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
+    padding: 4px;
+    line-height: 0;
+    flex-shrink: 0;
+    transition: color 0.15s;
+  }
+
+  .welcome-banner-dismiss:hover { color: white; }
+  .welcome-banner-dismiss svg { width: 16px; height: 16px; }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 76px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .sidebar-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+  }
+
+  .sidebar-card h3 {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.875rem;
+  }
+
+  .student-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: 480px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+  }
+
+  .student-list::-webkit-scrollbar { width: 4px; }
+  .student-list::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+
+  .student-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    transition: background 0.12s;
+    font-family: inherit;
+  }
+
+  .student-btn:hover { background: var(--accent-light); }
+  .student-btn.active { background: var(--accent-light); }
+
+  .student-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--accent-light);
+    color: var(--accent-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .student-btn-info { flex: 1; min-width: 0; }
+
+  .student-btn-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+  }
+
+  .student-btn-roll {
+    font-size: 11px;
+    color: var(--text-3);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .profile-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    display: none;
+  }
+
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .profile-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: var(--accent-light);
+    color: var(--accent-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .profile-name {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .profile-roll {
+    font-size: 12px;
+    color: var(--text-3);
+    font-family: 'DM Mono', monospace;
+    margin-top: 2px;
+  }
+
+  .profile-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .meta-item {
+    background: var(--surface2);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+  }
+
+  .meta-label {
+    font-size: 11px;
+    color: var(--text-3);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 3px;
+  }
+
+  .meta-value { font-size: 14px; font-weight: 500; }
+  .cgpa-value { color: var(--accent); font-size: 16px; }
+
+  .semester-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .semester-row select {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text);
+    outline: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23a09f9b' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    min-width: 0;
+  }
+
+  .semester-row select:focus { border-color: var(--accent); }
+
+  .btn-load {
+    padding: 10px 20px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+
+  .btn-load:hover { background: #1d4bd4; }
+
+  .content-area { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+
+  .empty-state {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 4rem 2rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+
+  .empty-icon {
+    width: 56px;
+    height: 56px;
+    background: var(--surface2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+  }
+
+  .empty-icon svg { width: 24px; height: 24px; stroke: var(--text-3); fill: none; }
+  .empty-state h3 { font-size: 16px; font-weight: 500; margin-bottom: 0.4rem; }
+  .empty-state p { font-size: 14px; color: var(--text-2); }
+
+  .loading-bar {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+
+  .spinner {
+    width: 28px;
+    height: 28px;
+    border: 2.5px solid var(--accent-light);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin: 0 auto 0.75rem;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-bar p { font-size: 14px; color: var(--text-2); }
+
+  .subject-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    animation: fadeUp 0.3s ease both;
+    min-width: 0;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .subject-header {
+    padding: 1.125rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .subject-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .subject-name { font-size: 14px; font-weight: 600; }
+
+  .att-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .att-cell {
+    padding: 14px 16px;
+    border-right: 1px solid var(--border);
+  }
+
+  .att-cell:last-child { border-right: none; }
+
+  .att-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+
+  .att-value {
+    font-size: 20px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .att-pct-good { color: var(--green); }
+  .att-pct-warn { color: var(--amber); }
+  .att-pct-bad  { color: var(--red); }
+
+  .marks-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%; }
+
+  .marks-table {
+    width: 100%;
+    min-width: 400px;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .marks-table th {
+    padding: 10px 16px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .marks-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: middle;
+  }
+
+  .marks-table tr:last-child td { border-bottom: none; }
+  .marks-table tr:hover td { background: var(--surface2); }
+
+  .status-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .badge-done { background: var(--green-light); color: var(--green); }
+  .badge-pend { background: var(--amber-light); color: var(--amber); }
+  .badge-miss { background: var(--red-light); color: var(--red); }
+  .badge-def  { background: var(--surface2); color: var(--text-2); }
+
+  .no-data td {
+    text-align: center;
+    color: var(--text-3);
+    padding: 1.5rem;
+    font-style: italic;
+  }
+
+  .student-serial {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-3);
+    min-width: 18px;
+    text-align: right;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+
+  /* ── HAMBURGER ── */
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    color: var(--text);
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 199;
+  }
+
+  .sidebar-overlay.open { display: block; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .main {
+      grid-template-columns: 1fr;
+      padding: 1rem;
+      gap: 1rem;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 290px;
+      max-width: 85vw;
+      background: var(--bg);
+      z-index: 200;
+      padding: 1rem;
+      overflow-y: auto;
+      transform: translateX(-100%);
+      transition: transform 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .sidebar.open { transform: translateX(0); }
+    .student-list { max-height: none; }
+    .hamburger { display: flex; }
+    .topbar { padding: 0 1rem; gap: 8px; }
+
+    .att-strip { grid-template-columns: repeat(2, 1fr); }
+    .att-cell:nth-child(2) { border-right: none; }
+    .att-cell:nth-child(3) { border-top: 1px solid var(--border); }
+    .att-cell:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
+
+    .semester-row { flex-direction: column; align-items: stretch; }
+    .btn-load { text-align: center; }
+    .login-card { padding: 2rem 1.5rem; }
+
+    .welcome-banner { padding: 1rem; }
+  }
+
+  @media (max-width: 600px) {
+    .user-chip-name { display: none; }
+    .btn-logout span { display: none; }
+    .btn-logout { padding: 7px 10px; }
+    .topbar-brand span { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .profile-meta { grid-template-columns: 1fr; }
+    .marks-table th, .marks-table td { padding: 8px 10px; font-size: 12px; }
+    .att-cell { padding: 10px 12px; }
+    .att-value { font-size: 16px; }
+    .att-label { font-size: 10px; }
+  }
+</style>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232d5be3'/%3E%3Cpath d='M10 22V10l12 6-12 6z' fill='white'/%3E%3C/svg%3E">
 </head>
-
 <body>
 
-
-
-<div class="container" id="loginSection">
-
-    <h2>EMS Login</h2>
-
-    <input type="text"
-           id="username"
-           placeholder="Enter Username">
-
-    <input type="password"
-           id="password"
-           placeholder="Enter Password">
-
-    <button onclick="login()">
-        Login
-    </button>
-
+<!-- LOGIN -->
+<div id="loginSection">
+  <div class="login-card">
+    <div class="login-logo">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+    </div>
+    <h1>Advisor Portal</h1>
+    <p>Sign in to your EMS account to continue</p>
+    <div class="field">
+      <label>Username</label>
+      <input type="text" id="username" placeholder="Enter your username" autocomplete="username">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password">
+    </div>
+    <button class="btn-primary" onclick="login()">Sign in</button>
+  </div>
 </div>
 
+<!-- DASHBOARD -->
+<div id="dashboard">
 
-
-
-<div class="container" id="dashboard">
-
-    <h2>Advisor Dashboard</h2>
-
-    <p id="welcomeText"></p>
-
-
-
-    <!-- ROLL BUTTONS -->
-
-    <h3>Select Student Roll</h3>
-
-    <div class="roll-container"
-         id="rollContainer"></div>
-
-
-
-    <!-- STUDENT INFO -->
-
-    <div id="studentContainer"></div>
-
-
-
-    <!-- SEMESTER SECTION -->
-
-    <div id="assessmentSection"
-         style="display:none;">
-
-        <h2>Assessment & Attendance Summary</h2>
-
-        <select id="semesterSelect"></select>
-
-        <button onclick="loadAssessmentMarks()">
-            Show All Subject Details
-        </button>
-
-        <div class="loading"
-             id="loadingText"></div>
-
-        <div id="assessmentTable"></div>
-
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-brand">
+      <button class="hamburger" onclick="toggleSidebar()" aria-label="Toggle student list">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+      <div class="topbar-logo">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+      </div>
+      <span>EMS Advisor Dashboard</span>
     </div>
 
+    <div class="topbar-right">
+      <!-- User chip with avatar -->
+      <div class="user-chip" id="userChip">
+        <div class="user-avatar" id="topbarAvatar">--</div>
+        <span class="user-chip-name" id="topbarName">—</span>
+      </div>
+      <!-- Logout button -->
+      <button class="btn-logout" onclick="logout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        <span>Sign out</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- WELCOME BANNER -->
+  <div class="welcome-banner" id="welcomeBanner">
+    <div class="welcome-banner-inner">
+      <div class="welcome-banner-icon">
+        <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+      </div>
+      <p>Welcome back, <strong id="bannerName">—</strong>! You're signed in to the EMS Advisor Dashboard.</p>
+      <button class="welcome-banner-dismiss" onclick="dismissBanner()" aria-label="Dismiss">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <div class="main">
+
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-card">
+        <h3>Students</h3>
+        <div class="student-list" id="rollContainer"></div>
+      </div>
+
+      <div class="profile-card" id="profileCard">
+        <div class="profile-header">
+          <div class="profile-avatar" id="profileAvatar">--</div>
+          <div>
+            <div class="profile-name" id="profileName">—</div>
+            <div class="profile-roll" id="profileRoll">—</div>
+          </div>
+        </div>
+        <div class="profile-meta">
+          <div class="meta-item">
+            <div class="meta-label">Department</div>
+            <div class="meta-value" id="profileDept">—</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Batch</div>
+            <div class="meta-value" id="profileBatch">—</div>
+          </div>
+          <div class="meta-item" style="grid-column:span 2">
+            <div class="meta-label">CGPA</div>
+            <div class="meta-value cgpa-value" id="profileCgpa">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-area">
+
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">
+          <svg viewBox="0 0 24 24" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4" stroke-linecap="round"/>
+            <path stroke-linecap="round" d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3>Select a student</h3>
+        <p>Choose a student from the list on the left to view their profile and assessment data.</p>
+      </div>
+
+      <div id="assessmentSection" style="display:none;">
+        <div class="semester-row">
+          <select id="semesterSelect"></select>
+          <button class="btn-load" onclick="loadAssessmentMarks()">Load Details</button>
+        </div>
+        <div class="loading-bar" id="loadingBar">
+          <div class="spinner"></div>
+          <p>Fetching assessment &amp; attendance data…</p>
+        </div>
+        <div id="assessmentTable"></div>
+      </div>
+
+    </div>
+  </div>
 </div>
 
-
-
-
 <script>
+  let accessToken = "", studentId = null, currentRoll = "";
+  let currentSemesterId = null;
 
-    // =====================================
-    // FIXED ROLLS
-    // =====================================
+  // ── HELPERS ──
+  function initials(name) {
+    return name.split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join("").toUpperCase();
+  }
 
-    const rolls = [
+  function toggleSidebar() {
+    const sb  = document.getElementById("sidebar");
+    const ov  = document.getElementById("sidebarOverlay");
+    const open = sb.classList.toggle("open");
+    ov.classList.toggle("open", open);
+  }
 
-        "0802420205101083",
-        "0802420105101084",
-        "0802420105101087",
-        "0802420105101088",
-        "0802420205101090",
-        "0802420105101092",
-        "0802420205101093",
-        "0802420205101094",
-        "0802420205101095",
-        "0802420205101096",
-        "0802420105101097",
-        "0802420205101099",
-        "0802420205101100",
-        "0802420105101101",
-        "0802420105101102",
-        "0802420405101103",
-        "0802420205101105",
-        "0802420405101106",
-        "0802420105101107",
-        "0802420105101108",
-        "0802420105101109",
-        "0802420205101112",
-        "0802420105101113",
-        "0802420105101114",
-        "0802420105101115",
-        "0802420405101118",
-        "0802420105101119",
-        "0802420105101120",
-        "0802420105101122",
-        "0802420205101123"
-
-    ];
-
-
-    // =====================================
-    // GLOBAL VARIABLES
-    // =====================================
-
-    let accessToken = "";
-    let studentId = null;
-    let currentRoll = "";
-
-
-    // =====================================
-    // LOGIN
-    // =====================================
-
-    async function login(){
-
-        const username =
-            document.getElementById("username").value;
-
-        const password =
-            document.getElementById("password").value;
-
-
-        const payload = {
-
-            username: username,
-            password: password,
-            targetCampusCode: "BAUST"
-        };
-
-
-        try{
-
-            const response = await fetch(
-                "https://api-ems.baust.edu.bd/api/authenticate",
-                {
-
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":"application/json"
-                    },
-
-                    body: JSON.stringify(payload)
-                }
-            );
-
-
-            const data = await response.json();
-
-
-            if(data.success){
-
-                accessToken =
-                    data.data.accessToken;
-
-
-                document.getElementById(
-                    "loginSection"
-                ).style.display = "none";
-
-
-                document.getElementById(
-                    "dashboard"
-                ).style.display = "block";
-
-
-                document.getElementById(
-                    "welcomeText"
-                ).innerHTML =
-                    `<b>Welcome:</b> ${data.data.userInfo.displayName}`;
-
-
-                createRollButtons();
-
-            }
-            else{
-
-                alert("Login Failed!");
-            }
-
-        }
-        catch(error){
-
-            console.log(error);
-
-            alert("Login Error!");
-        }
-
+  function closeSidebarMobile() {
+    if (window.innerWidth <= 900) {
+      document.getElementById("sidebar").classList.remove("open");
+      document.getElementById("sidebarOverlay").classList.remove("open");
     }
+  }
 
+  function dismissBanner() {
+    document.getElementById("welcomeBanner").style.display = "none";
+    sessionStorage.setItem("bannerDismissed", "1");
+  }
 
+  // ── SESSION PERSISTENCE ──
+  function saveSession(token, userInfo) {
+    localStorage.setItem("ems_token", token);
+    localStorage.setItem("ems_user", JSON.stringify(userInfo));
+  }
 
-    // =====================================
-    // CREATE ROLL BUTTONS
-    // =====================================
+  function clearSession() {
+    localStorage.removeItem("ems_token");
+    localStorage.removeItem("ems_user");
+  }
 
-    function createRollButtons(){
-
-        let html = "";
-
-
-        rolls.forEach(roll => {
-
-            html += `
-                <button class="roll-btn"
-                        onclick="searchStudent('${roll}')">
-
-                    ${roll}
-
-                </button>
-            `;
-        });
-
-
-        document.getElementById(
-            "rollContainer"
-        ).innerHTML = html;
-
+  function restoreSession() {
+    const token    = localStorage.getItem("ems_token");
+    const userRaw  = localStorage.getItem("ems_user");
+    if (!token || !userRaw) return false;
+    try {
+      const userInfo = JSON.parse(userRaw);
+      accessToken = token;
+      showDashboard(userInfo, false); // false = not a fresh login, don't flash banner
+      return true;
+    } catch(e) {
+      clearSession();
+      return false;
     }
+  }
 
+  function showDashboard(userInfo, freshLogin = true) {
+    document.getElementById("loginSection").style.display = "none";
+    document.getElementById("dashboard").style.display    = "block";
 
+    // Topbar avatar & name
+    const displayName = userInfo.displayName || userInfo.name || "User";
+    document.getElementById("topbarAvatar").textContent = initials(displayName);
+    document.getElementById("topbarName").textContent   = displayName;
 
-
-    // =====================================
-    // SEARCH STUDENT
-    // =====================================
-
-    async function searchStudent(roll){
-
-        currentRoll = roll;
-
-
-        document.getElementById(
-            "assessmentTable"
-        ).innerHTML = "";
-
-
-        const apiUrl =
-            `https://api-ems.baust.edu.bd/semester/students/student-details-by-student-roll?studentRoll=${roll}`;
-
-
-        try{
-
-            const response = await fetch(
-                apiUrl,
-                {
-
-                    method:"GET",
-
-                    headers: {
-
-                        "Authorization":
-                            `Bearer ${accessToken}`
-                    }
-                }
-            );
-
-
-            const result =
-                await response.json();
-
-
-            if(!result.success){
-
-                alert("Student not found!");
-                return;
-            }
-
-
-            const student =
-                result.data;
-
-
-            studentId =
-                student.studentId;
-
-
-
-            // ================================
-            // STUDENT CARD
-            // ================================
-
-            document.getElementById(
-                "studentContainer"
-            ).innerHTML = `
-
-                <div class="student-card">
-
-                    <h3>
-                        ${student.studentName}
-                    </h3>
-
-                    <div class="info">
-                        <span class="label">
-                            Roll:
-                        </span>
-                        ${student.studentRoll}
-                    </div>
-
-                    <div class="info">
-                        <span class="label">
-                            Department:
-                        </span>
-                        ${student.departmentName}
-                    </div>
-
-                    <div class="info">
-                        <span class="label">
-                            Batch:
-                        </span>
-                        ${student.batchName}
-                    </div>
-
-                    <div class="info">
-                        <span class="label">
-                            CGPA:
-                        </span>
-                        ${student.cgpa}
-                    </div>
-
-                </div>
-            `;
-
-
-            loadSemesters();
-
-        }
-        catch(error){
-
-            console.log(error);
-
-            alert("Student Fetch Error!");
-        }
-
+    // Welcome banner — only show on fresh login
+    if (freshLogin && !sessionStorage.getItem("bannerDismissed")) {
+      document.getElementById("bannerName").textContent       = displayName;
+      document.getElementById("welcomeBanner").style.display  = "block";
     }
+  }
 
+  function logout() {
+    if (!confirm("Are you sure you want to sign out?")) return;
+    clearSession();
+    accessToken = "";
+    studentId   = null;
+    currentRoll = "";
+    // Reset UI
+    document.getElementById("dashboard").style.display   = "none";
+    document.getElementById("loginSection").style.display = "flex";
+    document.getElementById("username").value  = "";
+    document.getElementById("password").value  = "";
+    document.getElementById("assessmentTable").innerHTML = "";
+    document.getElementById("rollContainer").innerHTML   = "";
+    document.getElementById("profileCard").style.display = "none";
+    document.getElementById("emptyState").style.display  = "block";
+    document.getElementById("assessmentSection").style.display = "none";
+    document.getElementById("welcomeBanner").style.display     = "none";
+    sessionStorage.removeItem("bannerDismissed");
+  }
 
-
-
-    // =====================================
-    // LOAD SEMESTERS
-    // =====================================
-
-    async function loadSemesters(){
-
-        try{
-
-            const response = await fetch(
-                "https://api-ems.baust.edu.bd/course-offering/semester-list?isMainTerm=true",
-                {
-
-                    method:"GET",
-
-                    headers: {
-
-                        "Authorization":
-                            `Bearer ${accessToken}`
-                    }
-                }
-            );
-
-
-            const result =
-                await response.json();
-
-
-            const semesters =
-                result.data;
-
-
-            let options = "";
-
-
-            semesters.forEach(semester => {
-
-                options += `
-                    <option value="${semester.semesterId}">
-                        ${semester.name}
-                    </option>
-                `;
-            });
-
-
-            document.getElementById(
-                "semesterSelect"
-            ).innerHTML = options;
-
-
-            document.getElementById(
-                "assessmentSection"
-            ).style.display = "block";
-
-        }
-        catch(error){
-
-            console.log(error);
-
-            alert("Semester Load Error!");
-        }
-
+  // ── LOGIN ──
+  async function login() {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+    if (!username || !password) { alert("Please enter your username and password."); return; }
+    try {
+      const res  = await fetch("https://api-ems.baust.edu.bd/api/authenticate", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({username, password, targetCampusCode:"BAUST"})
+      });
+      const data = await res.json();
+      if (data.success) {
+        accessToken = data.data.accessToken;
+        const userInfo = data.data.userInfo;
+        saveSession(accessToken, userInfo);
+        showDashboard(userInfo, true);
+        await loadStudentsAuto();
+      } else {
+        alert("Login failed. Please check your credentials.");
+      }
+    } catch(e) {
+      console.error(e);
+      alert("Network error during login. Please try again.");
     }
-
-
-
-
-    // =====================================
-    // LOAD ASSESSMENT + ATTENDANCE
-    // =====================================
-
-    async function loadAssessmentMarks(){
-
-        const semesterId =
-            document.getElementById(
-                "semesterSelect"
-            ).value;
-
-
-        document.getElementById(
-            "loadingText"
-        ).innerHTML =
-            "Loading data...";
-
-
-        try{
-
-            // ================================
-            // LOAD COURSES
-            // ================================
-
-            const courseApi =
-                `https://api-ems.baust.edu.bd/admin-panel/student/registered-course-list-by-semester?semesterId=${semesterId}&studentId=${studentId}`;
-
-
-            const courseResponse =
-                await fetch(
-                    courseApi,
-                    {
-
-                        method:"GET",
-
-                        headers: {
-
-                            "Authorization":
-                                `Bearer ${accessToken}`
-                        }
-                    }
-                );
-
-
-            const courseResult =
-                await courseResponse.json();
-
-
-            const courses =
-                courseResult.data;
-
-
-
-            // ================================
-            // LOAD ATTENDANCE
-            // ================================
-
-            const attendanceApi =
-                `https://api-ems.baust.edu.bd/admin-panel/student/attendance-summary-per-student?studentRoll=${currentRoll}&semesterId=${semesterId}`;
-
-
-            const attendanceResponse =
-                await fetch(
-                    attendanceApi,
-                    {
-
-                        method:"GET",
-
-                        headers: {
-
-                            "Authorization":
-                                `Bearer ${accessToken}`
-                        }
-                    }
-                );
-
-
-            const attendanceResult =
-                await attendanceResponse.json();
-
-
-            let attendanceList = [];
-
-
-            if(
-                attendanceResult.success &&
-                attendanceResult.data &&
-                attendanceResult.data.attendanceSummary
-            ){
-
-                attendanceList =
-                    attendanceResult.data.attendanceSummary;
-            }
-
-
-
-            // ================================
-            // ALL SUBJECT CARDS
-            // ================================
-
-            let allCards = "";
-
-
-
-            // ================================
-            // LOOP COURSES
-            // ================================
-
-            for(const course of courses){
-
-                try{
-
-                    const runningCourseId =
-                        course.value;
-
-                    const courseName =
-                        course.label;
-
-
-
-                    // ============================
-                    // FIND ATTENDANCE
-                    // ============================
-
-                    const attendance =
-                        attendanceList.find(
-                            item =>
-                                item.runningCourseId ==
-                                runningCourseId
-                        );
-
-
-
-                    // ============================
-                    // LOAD MARKS
-                    // ============================
-
-                    const marksApi =
-                        `https://api-ems.baust.edu.bd/admin-panel/student/continuous-assessment-list-of-semester?runningCourseId=${runningCourseId}&studentId=${studentId}`;
-
-
-                    const marksResponse =
-                        await fetch(
-                            marksApi,
-                            {
-
-                                method:"GET",
-
-                                headers: {
-
-                                    "Authorization":
-                                        `Bearer ${accessToken}`
-                                }
-                            }
-                        );
-
-
-                    const marksResult =
-                        await marksResponse.json();
-
-
-                    if(!marksResult.success){
-
-                        continue;
-                    }
-
-
-                    const assessments =
-                        marksResult.data;
-
-
-
-                    // ============================
-                    // SUBJECT CARD
-                    // ============================
-
-                    let card = `
-
-                        <div class="subject-card">
-
-                            <h3 class="subject-title">
-                                ${courseName}
-                            </h3>
-
-
-
-                            <div class="attendance-box">
-
-                                <h4>
-                                    Attendance Summary
-                                </h4>
-
-                                <div class="attendance-grid">
-
-                                    <div class="attendance-item">
-                                        <b>Present</b><br>
-                                        ${attendance?.presentCount ?? "-"}
-                                    </div>
-
-                                    <div class="attendance-item">
-                                        <b>Absent</b><br>
-                                        ${attendance?.absentCount ?? "-"}
-                                    </div>
-
-                                    <div class="attendance-item">
-                                        <b>Total</b><br>
-                                        ${attendance?.totalClass ?? "-"}
-                                    </div>
-
-                                    <div class="attendance-item">
-                                        <b>Percentage</b><br>
-                                        ${attendance?.percentage ?? "-"}%
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-
-                            <table>
-
-                                <tr>
-                                    <th>Assessment</th>
-                                    <th>Total</th>
-                                    <th>Obtained</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                </tr>
-                    `;
-
-
-
-                    // ============================
-                    // ADD ROWS
-                    // ============================
-
-                    assessments.forEach(item => {
-
-                        card += `
-
-                            <tr>
-
-                                <td>
-                                    ${item.assessmentName ?? "-"}
-                                </td>
-
-                                <td>
-                                    ${item.totalMarks ?? "-"}
-                                </td>
-
-                                <td>
-                                    ${item.obtainedMarks ?? "-"}
-                                </td>
-
-                                <td>
-                                    ${item.marksStatus ?? "-"}
-                                </td>
-
-                                <td>
-                                    ${item.assessmentDate ?? "-"}
-                                </td>
-
-                            </tr>
-                        `;
-                    });
-
-
-                    card += `
-                            </table>
-                        </div>
-                    `;
-
-
-                    allCards += card;
-
-                }
-                catch(innerError){
-
-                    console.log(innerError);
-                }
-
-            }
-
-
-
-            // ================================
-            // SHOW ALL CARDS
-            // ================================
-
-            document.getElementById(
-                "assessmentTable"
-            ).innerHTML = allCards;
-
-
-            document.getElementById(
-                "loadingText"
-            ).innerHTML = "";
-
-        }
-        catch(error){
-
-            console.log(error);
-
-            alert("Data Load Error!");
-        }
-
+  }
+
+  // ── AUTO-FETCH STUDENTS ──
+  async function loadStudentsAuto() {
+    const rc = document.getElementById("rollContainer");
+    rc.innerHTML = `<div style="padding:12px;font-size:13px;color:var(--text-3)">Loading students…</div>`;
+
+    try {
+      const semRes    = await fetch(
+        "https://api-ems.baust.edu.bd/course-offering/semester-list?isMainTerm=true",
+        {headers:{Authorization:`Bearer ${accessToken}`}}
+      );
+      const semData   = await semRes.json();
+      const semesters = semData.data || [];
+      if (!semesters.length) {
+        rc.innerHTML = `<p style="color:var(--red);padding:12px;font-size:13px">No semesters found.</p>`;
+        return;
+      }
+      const latest      = semesters.reduce((a,b) => b.semesterId > a.semesterId ? b : a);
+      currentSemesterId = latest.semesterId;
+
+      const stuRes  = await fetch(
+        `https://api-ems.baust.edu.bd/course-offering/fixed-credit/student-semester-course-offering-summary?semesterId=${currentSemesterId}&programId=2`,
+        {headers:{Authorization:`Bearer ${accessToken}`}}
+      );
+      const stuData = await stuRes.json();
+      console.log("Student list API response:", stuData);
+
+      let rawList = [];
+      if (Array.isArray(stuData.data))                   rawList = stuData.data;
+      else if (Array.isArray(stuData.data?.content))     rawList = stuData.data.content;
+      else if (Array.isArray(stuData.data?.students))    rawList = stuData.data.students;
+      else if (Array.isArray(stuData.data?.studentList)) rawList = stuData.data.studentList;
+      else if (Array.isArray(stuData.data?.data))        rawList = stuData.data.data;
+      else if (Array.isArray(stuData.content))           rawList = stuData.content;
+      else if (Array.isArray(stuData.students))          rawList = stuData.students;
+
+      const students = rawList.map(s => ({
+        roll: s.studentRoll ?? s.rollNo ?? s.roll ?? s.student_roll ?? String(s.studentId ?? ""),
+        name: s.studentName ?? s.fullName ?? s.name ?? s.student_name ?? ""
+      })).filter(s => s.roll && s.name);
+
+      if (!students.length) {
+        const sampleKeys = rawList[0] ? Object.keys(rawList[0]).join(", ") : "no items returned";
+        rc.innerHTML = `
+          <div style="padding:12px;font-size:13px;color:var(--text-2)">
+            <strong style="color:var(--red)">Could not map students.</strong><br><br>
+            Semester: <em>${latest.name}</em><br>
+            Items returned: <em>${rawList.length}</em><br>
+            Keys found: <code style="font-size:11px">${sampleKeys}</code><br><br>
+            Check the browser console for the full API response.
+          </div>`;
+        return;
+      }
+
+      students.sort((a,b) => a.roll.localeCompare(b.roll, undefined, {numeric:true}));
+
+      rc.innerHTML = `
+        <div style="font-size:11px;color:var(--text-3);padding:0 2px 10px;letter-spacing:0.04em;display:flex;align-items:center;justify-content:space-between;">
+          <span>${latest.name}</span>
+          <span style="background:var(--accent-light);color:var(--accent-text);font-weight:600;padding:2px 8px;border-radius:20px;font-size:11px">${students.length} students</span>
+        </div>
+        ${students.map((s, i) => `
+          <button class="student-btn" onclick="searchStudent('${s.roll}')" id="btn-${s.roll}">
+            <div class="student-serial">${i + 1}</div>
+            <div class="student-avatar">${initials(s.name)}</div>
+            <div class="student-btn-info">
+              <div class="student-btn-name">${s.name}</div>
+              <div class="student-btn-roll">${s.roll}</div>
+            </div>
+          </button>
+        `).join("")}
+      `;
+    } catch(e) {
+      console.error("loadStudentsAuto error:", e);
+      rc.innerHTML = `<p style="color:var(--red);padding:12px;font-size:13px">Failed to load students. Check the browser console for details.</p>`;
     }
+  }
 
+  // ── STUDENT DETAIL ──
+  async function searchStudent(roll) {
+    currentRoll = roll;
+    document.querySelectorAll(".student-btn").forEach(b=>b.classList.remove("active"));
+    document.getElementById("btn-"+roll)?.classList.add("active");
+    closeSidebarMobile();
+    document.getElementById("assessmentTable").innerHTML = "";
+    document.getElementById("emptyState").style.display = "none";
+    try {
+      const res    = await fetch(
+        `https://api-ems.baust.edu.bd/semester/students/student-details-by-student-roll?studentRoll=${roll}`,
+        {headers:{Authorization:`Bearer ${accessToken}`}}
+      );
+      const result = await res.json();
+      if (!result.success) { alert("Student not found!"); return; }
+      const s = result.data;
+      studentId = s.studentId;
+      document.getElementById("profileAvatar").textContent = initials(s.studentName);
+      document.getElementById("profileName").textContent   = s.studentName;
+      document.getElementById("profileRoll").textContent   = s.studentRoll;
+      document.getElementById("profileDept").textContent   = s.departmentName;
+      document.getElementById("profileBatch").textContent  = s.batchName;
+      document.getElementById("profileCgpa").textContent   = s.cgpa;
+      document.getElementById("profileCard").style.display = "block";
+      loadSemesters();
+    } catch(e) { console.error(e); alert("Error fetching student data."); }
+  }
+
+  async function loadSemesters() {
+    try {
+      const res    = await fetch(
+        "https://api-ems.baust.edu.bd/course-offering/semester-list?isMainTerm=true",
+        {headers:{Authorization:`Bearer ${accessToken}`}}
+      );
+      const result = await res.json();
+      document.getElementById("semesterSelect").innerHTML =
+        result.data.map(s=>`<option value="${s.semesterId}">${s.name}</option>`).join("");
+      document.getElementById("assessmentSection").style.display = "block";
+    } catch(e) { console.error(e); alert("Error loading semesters."); }
+  }
+
+  async function loadAssessmentMarks() {
+    const semesterId = document.getElementById("semesterSelect").value;
+    const lb = document.getElementById("loadingBar");
+    lb.style.display = "block";
+    document.getElementById("assessmentTable").innerHTML = "";
+    try {
+      const [courseRes, attRes] = await Promise.all([
+        fetch(`https://api-ems.baust.edu.bd/admin-panel/student/registered-course-list-by-semester?semesterId=${semesterId}&studentId=${studentId}`,
+          {headers:{Authorization:`Bearer ${accessToken}`}}),
+        fetch(`https://api-ems.baust.edu.bd/admin-panel/student/attendance-summary-per-student?studentRoll=${currentRoll}&semesterId=${semesterId}`,
+          {headers:{Authorization:`Bearer ${accessToken}`}})
+      ]);
+      const courses   = (await courseRes.json()).data || [];
+      const attResult = await attRes.json();
+      const attList   = attResult.success ? (attResult.data?.attendanceSummary??[]) : [];
+
+      let allCards = "", idx = 0;
+      for (const course of courses) {
+        try {
+          const rid = course.value;
+          const att = attList.find(a=>a.runningCourseId==rid);
+          const marksRes  = await fetch(
+            `https://api-ems.baust.edu.bd/admin-panel/student/continuous-assessment-list-of-semester?runningCourseId=${rid}&studentId=${studentId}`,
+            {headers:{Authorization:`Bearer ${accessToken}`}}
+          );
+          const marksData = await marksRes.json();
+          if (!marksData.success) continue;
+          const assessments = marksData.data || [];
+          const pct = parseFloat(att?.percentage ?? 0);
+          const pctCls = pct>=75?"att-pct-good":pct>=60?"att-pct-warn":att?"att-pct-bad":"";
+          const rows = assessments.length
+            ? assessments.map(item=>{
+                const st  = (item.marksStatus??"").toLowerCase();
+                const cls = st.includes("complet")?"badge-done":st.includes("pend")?"badge-pend":st.includes("miss")?"badge-miss":"badge-def";
+                return `<tr>
+                  <td>${item.assessmentName??"—"}</td>
+                  <td>${item.totalMarks??"—"}</td>
+                  <td>${item.obtainedMarks??"—"}</td>
+                  <td><span class="status-badge ${cls}">${item.marksStatus??"—"}</span></td>
+                  <td style="color:var(--text-2);font-size:12px">${item.assessmentDate??"—"}</td>
+                </tr>`;
+              }).join("")
+            : `<tr class="no-data"><td colspan="5">No assessment data available</td></tr>`;
+
+          allCards += `
+            <div class="subject-card" style="animation-delay:${idx*60}ms">
+              <div class="subject-header">
+                <div class="subject-dot"></div>
+                <div class="subject-name">${course.label}</div>
+              </div>
+              <div class="att-strip">
+                <div class="att-cell"><div class="att-label">Present</div><div class="att-value">${att?.presentCount??"—"}</div></div>
+                <div class="att-cell"><div class="att-label">Absent</div><div class="att-value">${att?.absentCount??"—"}</div></div>
+                <div class="att-cell"><div class="att-label">Total</div><div class="att-value">${att?.totalClass??"—"}</div></div>
+                <div class="att-cell"><div class="att-label">Percentage</div><div class="att-value ${pctCls}">${att?pct+"%":"—"}</div></div>
+              </div>
+              <div class="marks-table-wrap">
+                <table class="marks-table">
+                  <thead><tr><th>Assessment</th><th>Total</th><th>Obtained</th><th>Status</th><th>Date</th></tr></thead>
+                  <tbody>${rows}</tbody>
+                </table>
+              </div>
+            </div>`;
+          idx++;
+        } catch(inner) { console.error(inner); }
+      }
+      document.getElementById("assessmentTable").innerHTML = allCards ||
+        `<div class="empty-state"><p style="color:var(--text-2)">No course data found for this semester.</p></div>`;
+    } catch(e) {
+      console.error(e);
+      alert("Error loading assessment data.");
+    } finally {
+      lb.style.display = "none";
+    }
+  }
+
+  // ── ON LOAD: restore session if available ──
+  window.addEventListener("DOMContentLoaded", async () => {
+    const restored = restoreSession();
+    if (restored) {
+      await loadStudentsAuto();
+    }
+  });
+
+  // Enter key on login
+  document.addEventListener("keydown", e => {
+    if (e.key === "Enter" && document.getElementById("loginSection").style.display !== "none") {
+      login();
+    }
+  });
 </script>
-
 </body>
-
 </html>
